@@ -26,6 +26,15 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
   res.render('show', {restaurant: restaurant})
 })
 
+// 搜尋頁面
+app.get('/search', (req, res) => {
+  const keyword = req.query.keyword.toLocaleLowerCase().trim()
+  const restaurant = restaurantList.results.filter(restaurant => {
+    return restaurant.category.includes(keyword) || restaurant.name.toLocaleLowerCase().includes(keyword)
+  })
+  res.render('index', {restaurants: restaurant})
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
