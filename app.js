@@ -13,12 +13,17 @@ app.set('view engine', 'handlebars')
 // public檔案存取
 app.use(express.static('public'))
 
+// 餐廳清單頁面
 app.get('/', (req, res) => {
   res.render('index', {restaurants: restaurantList.results})
 })
 
-app.get('/show', (req, res) => {
-  res.render('show')
+// 個別頁面
+app.get('/restaurants/:restaurant_id', (req, res) => {
+  const restaurant = restaurantList.results.find(restaurant => {
+    return restaurant.id.toString() === req.params.restaurant_id
+  })
+  res.render('show', {restaurant: restaurant})
 })
 
 app.listen(port, () => {
